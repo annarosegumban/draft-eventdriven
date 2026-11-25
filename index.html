@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sun Chaser - Sunset Route Planner</title>
+
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="script.js"></script>
+</head>
+
+<body>
+
+<main class="container">
+
+  <header class="hero">
+    <div class="sun-icon">☀️</div>
+    <div>
+      <p class="eyebrow">YOUR SUNSET ADVENTURE STARTS HERE</p>
+      <h1>Sun Chaser</h1>
+      <p>Find beautiful sunset destinations and calculate your travel expenses.</p>
+    </div>
+  </header>
+
+  <!-- TRIP PLANNER -->
+
+  <section class="panel">
+
+    <h2>Plan Your Journey</h2>
+    <p class="muted">Enter your starting point and choose where you want to go.</p>
+
+    <form id="trip-form">
+
+      <div class="form-grid">
+
+        <div class="field autocomplete-wrap">
+          <label for="origin-input">Starting Location</label>
+          <input
+            type="text"
+            id="origin-input"
+            placeholder="Enter your exact starting address"
+            autocomplete="off"
+            required>
+          <div id="origin-suggestions" class="suggestions"></div>
+        </div>
+
+        <div class="field autocomplete-wrap">
+          <label for="destination-input">Destination</label>
+          <input
+            type="text"
+            id="destination-input"
+            placeholder="Search your destination"
+            autocomplete="off"
+            required>
+          <div id="destination-suggestions" class="suggestions"></div>
+        </div>
+
+        <div class="field">
+          <label for="vehicle-select">Select Your Vehicle</label>
+          <select id="vehicle-select" required>
+            <option value="42">Yamaha Sniper 155 Motorcycle (42 km/L)</option>
+            <option value="12">Four-Wheel Sedan Car (12 km/L)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="gas-price">Current Gasoline Price (₱ per Liter)</label>
+          <input
+            type="number"
+            id="gas-price"
+            min="0.01"
+            step="0.01"
+            placeholder="Enter gasoline price"
+            value="62.50"
+            required>
+        </div>
+
+        <div class="field">
+          <label for="cloud-slider">Expected Cloud Cover</label>
+          <input
+            type="range"
+            id="cloud-slider"
+            min="0"
+            max="100"
+            value="35">
+          <strong id="cloud-value">35%</strong>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button type="submit" id="calculate-button" class="primary-button">
+          ☀ Calculate My Journey
+        </button>
+
+        <button type="button" id="use-location" class="secondary-button">
+          📍 Use My Current Location
+        </button>
+
+      </div>
+
+      <p id="status-message" class="status-message" role="status"></p>
+
+    </form>
+
+  </section>
+
+  <!-- SUGGESTED DESTINATIONS -->
+
+  <section class="panel">
+
+    <p class="eyebrow">DISCOVER BEAUTIFUL PLACES</p>
+    <h2>Suggested Sunset Destinations 🌅</h2>
+    <p class="muted">
+      Choose a recommended destination or search for any place you like.
+    </p>
+
+    <div id="destination-grid" class="destination-grid"></div>
+
+  </section>
+
+  <!-- RESULTS -->
+
+  <section id="results" hidden>
+
+    <div class="panel">
+
+      <p class="eyebrow">YOUR TRAVEL RESULTS</p>
+      <h2 id="result-title">Your Journey</h2>
+      <p id="result-subtitle" class="muted"></p>
+
+      <div class="stats-grid">
+
+        <div class="stat-card">
+          <span>🌅 Sunrise</span>
+          <strong id="sunrise-output">--</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>🌇 Sunset</span>
+          <strong id="sunset-output">--</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>☀ Daylight</span>
+          <strong id="daylight-output">--</strong>
+        </div>
+
+      </div>
+
+      <div class="score-card">
+        <span>Estimated Sunset Score</span>
+        <strong id="sunset-score">--</strong>
+        <span id="sky-verdict"></span>
+      </div>
+
+    </div>
+
+    <!-- ROUTE MAP -->
+
+    <div class="panel map-panel">
+
+      <div class="map-heading">
+        <div>
+          <p class="eyebrow">YOUR DRIVING DIRECTIONS</p>
+          <h2>Point-to-Point Route Map</h2>
+        </div>
+
+        <div class="map-controls">
+          <button type="button" id="zoom-in">+</button>
+          <button type="button" id="zoom-out">−</button>
+          <button type="button" id="fit-route">Fit Route</button>
+        </div>
+      </div>
+
+      <div id="route-map"></div>
+
+      <p class="muted">
+        Zoom in, zoom out, and drag the map to explore your route.
+      </p>
+
+    </div>
+
+    <!-- GASOLINE COMPUTATION -->
+
+    <div class="panel">
+
+      <p class="eyebrow">AUTOMATIC FUEL CALCULATION</p>
+      <h2>Gasoline Computation ⛽</h2>
+
+      <div class="fuel-results">
+
+        <div class="fuel-item">
+          <span>🛣 Total Travel Distance</span>
+          <strong id="distance-output">-- km</strong>
+        </div>
+
+        <div class="fuel-item">
+          <span>🏍 Selected Vehicle</span>
+          <strong id="vehicle-output">--</strong>
+        </div>
+
+        <div class="fuel-item">
+          <span>⛽ Estimated Gasoline Used</span>
+          <strong id="liters-output">-- liters</strong>
+        </div>
+
+        <div class="fuel-item">
+          <span>💵 Gasoline Price Per Liter</span>
+          <strong id="price-output">--</strong>
+        </div>
+
+        <div class="fuel-item total-cost">
+          <span>💰 Estimated Total Gasoline Cost</span>
+          <strong id="cost-output">--</strong>
+        </div>
+
+      </div>
+
+      <p class="muted" id="route-warning"></p>
+
+    </div>
+
+  </section>
+
+  <footer>
+    <p>☀️ Sun Chaser | Explore. Travel. Chase the Sunset.</p>
+    <small>Map data © OpenStreetMap contributors. Routing by OSRM.</small>
+  </footer>
+
+</main>
+
+</body>
+</html>

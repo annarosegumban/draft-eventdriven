@@ -1,0 +1,475 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap');
+
+:root {
+  --bg: #0b1220;
+  --panel: #16243a;
+  --gold: #ffbd59;
+  --orange: #f59e0b;
+  --text: #ffffff;
+  --muted: #a9b7ca;
+  --border: rgba(255,255,255,.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(145deg, #101a2b, #0b1220);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.container {
+  width: min(1100px, 94%);
+  margin: auto;
+  padding: 35px 0;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.sun-icon {
+  display: grid;
+  place-items: center;
+  width: 65px;
+  height: 65px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffe1a1, #f59e0b);
+  font-size: 38px;
+}
+
+h1, h2, h3 {
+  font-family: Manrope, sans-serif;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+h2 {
+  margin-top: 5px;
+  font-size: 1.5rem;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.panel {
+  padding: 25px;
+  margin-bottom: 22px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--panel);
+  box-shadow: 0 12px 35px rgba(0,0,0,.2);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input:not([type=range]), select {
+  width: 100%;
+  height: 48px;
+  padding: 0 13px;
+  color: white;
+  background: #0c1829;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(255,189,89,.12);
+}
+
+input::placeholder {
+  color: #8290a3;
+}
+
+input[type=range] {
+  width: 100%;
+  accent-color: var(--orange);
+  cursor: pointer;
+}
+
+#cloud-value {
+  color: var(--gold);
+  font-size: 13px;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 700;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: none;
+  transition: .2s;
+}
+
+.primary-button {
+  background: linear-gradient(135deg, #ffda94, #f59e0b);
+  color: #30200b;
+}
+
+.secondary-button {
+  color: white;
+  background: #263954;
+  border: 1px solid var(--border);
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.status-message {
+  color: #68d8c4;
+  font-size: 13px;
+}
+
+.status-message.error {
+  color: #ff8d80;
+}
+
+/* LOCATION SEARCH */
+
+.suggestions {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 5px;
+  overflow: hidden;
+  background: #101b2c;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,.4);
+}
+
+.suggestions.open {
+  display: block;
+}
+
+.suggestion-item {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  color: white;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+}
+
+.suggestion-item:hover {
+  background: #293d59;
+}
+
+.suggestion-item small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+/* DESTINATION CARDS */
+
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.destination-card {
+  padding: 0;
+  overflow: hidden;
+  color: white;
+  text-align: left;
+  background: #0e1a2b;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  transition: .2s;
+}
+
+.destination-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+.destination-visual {
+  display: grid;
+  place-items: center;
+  height: 105px;
+  font-size: 40px;
+  background: linear-gradient(135deg, #435c78, #c47b42);
+}
+
+.destination-card:nth-child(3n+2) .destination-visual {
+  background: linear-gradient(135deg, #176b73, #c68c50);
+}
+
+.destination-card:nth-child(3n) .destination-visual {
+  background: linear-gradient(135deg, #59476e, #bc8055);
+}
+
+.destination-info {
+  display: block;
+  padding: 12px;
+}
+
+.destination-info strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.destination-info small {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* SUNSET RESULTS */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 13px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #0e1b2d;
+}
+
+.stat-card span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stat-card strong {
+  font-size: 19px;
+  overflow-wrap: anywhere;
+}
+
+.score-card {
+  padding: 17px;
+  margin-top: 18px;
+  text-align: center;
+  border-radius: 13px;
+  background: rgba(245,158,11,.1);
+  border: 1px solid rgba(255,189,89,.3);
+}
+
+.score-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.score-card strong {
+  display: block;
+  margin: 7px;
+  color: var(--gold);
+  font-size: 35px;
+}
+
+#sky-verdict {
+  color: var(--gold);
+}
+
+/* ROUTE MAP */
+
+.map-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.map-controls {
+  display: flex;
+  gap: 7px;
+}
+
+.map-controls button {
+  min-width: 40px;
+  height: 37px;
+  color: white;
+  background: #263954;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+#route-map {
+  width: 100%;
+  height: 420px;
+  margin-top: 15px;
+  border-radius: 13px;
+  overflow: hidden;
+}
+
+.map-panel {
+  margin-bottom: 22px;
+}
+
+/* GASOLINE CALCULATOR */
+
+.fuel-results {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.fuel-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #0e1b2d;
+  border: 1px solid var(--border);
+}
+
+.fuel-item span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.fuel-item strong {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.total-cost {
+  border-color: rgba(255,189,89,.4);
+  background: rgba(245,158,11,.1);
+}
+
+.total-cost strong {
+  color: var(--gold);
+  font-size: 23px;
+}
+
+footer {
+  padding: 25px 5px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* MOBILE RESPONSIVE */
+
+@media (max-width: 800px) {
+  .destination-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 94%;
+    padding-top: 20px;
+  }
+
+  .hero {
+    align-items: flex-start;
+  }
+
+  .sun-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 28px;
+  }
+
+  .form-grid,
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 17px;
+  }
+
+  .destination-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #route-map {
+    height: 320px;
+  }
+
+  .fuel-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .fuel-item strong {
+    text-align: left;
+  }
+}
